@@ -1,0 +1,4 @@
+git+https://github.com/lapismyt/pytube.git
+pytube
+git+https://github.com/krypton-byte/tiktok-downloader.git
+pytelegrambotapi
