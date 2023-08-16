@@ -6,7 +6,7 @@ import random
 import os
 import json
 import time
-import shutils
+import shutil
 
 def youtube_download(link):
     yt = YouTube(link)
@@ -56,6 +56,7 @@ def sendmsg_cmd(message):
 def text_handler(message):
     add_to_users(message.from_user.id)
     if "https://" in message.text and len(message.text.split()) == 1:
+        success = False
         if "youtu.be" in message.text or "youtube.com/watch/" in message.text or "youtube.com/shorts/" in message.text:
             msg = bot.reply_to(message, "Скачиваю видео...")
             filepath = youtube_download(message.text)
@@ -64,7 +65,7 @@ def text_handler(message):
             bot.send_video(message.chat.id, open(filepath, "rb"), timeout=600)
             bot.delete_message(msg.chat.id, msg.message_id)
             os.remove(filepath)
-            return None
+            success = True
         elif "tiktok.com" in message.text:
             msg = bot.reply_to(message, "Скачиваю видео...")
             filepath = tiktok_download(message.text)
@@ -73,6 +74,11 @@ def text_handler(message):
             bot.send_video(message.chat.id, open(filepath, "rb"), timeout=600)
             bot.delete_message(msg.chat.id, msg.message_id)
             os.remove(filepath)
+            success = True
+        if success:
+            users = json.load(open("users.json"))
+            users[str(message.from_user.id)]["videos"].append(message.text)
+            json.dump(users, open("users.json", "w"))
 
 
 
