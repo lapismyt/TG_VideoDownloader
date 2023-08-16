@@ -40,7 +40,7 @@ def start_cmd(message):
 def makecopy_cmd(message):
     if (message.from_user.id in ADMINS):
         filename = f"users-{str(int(time.time()))}.json"
-        shutils.copy2("users.json", f"copies/{filename}")
+        shutil.copy2("users.json", f"copies/{filename}")
         bot.reply_to(message, f"Резервная копия сохранена: ```{filename}```", parse_mode="markdown")
 
 @bot.message_handler(commands=["sendmsg"])
