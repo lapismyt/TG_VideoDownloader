@@ -42,6 +42,7 @@ def makecopy_cmd(message):
         filename = f"users-{str(int(time.time()))}.json"
         shutil.copy2("users.json", f"copies/{filename}")
         bot.reply_to(message, f"Резервная копия сохранена: ```{filename}```", parse_mode="markdown")
+        bot.send_document(message.chat.id, open(f"copies/{filename}", "r"))
 
 @bot.message_handler(commands=["sendmsg"])
 def sendmsg_cmd(message):
