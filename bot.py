@@ -11,7 +11,7 @@ import shutil
 def youtube_download(link):
     yt = YouTube(link)
     video = yt.streams.get_highest_resolution()
-    if (video.filesize > 629145600):
+    if (video.filesize > 52428800):
         return 145
     file = video.download(output_path="./downloads/")
     return file
@@ -64,7 +64,7 @@ def text_handler(message):
             msg = bot.reply_to(message, "Скачиваю видео...")
             filepath = youtube_download(message.text)
             if (filepath == 145):
-                bot.reply_to(message, "Видео весит больше 500МБ, скинь что-нибудь полегче.")
+                bot.reply_to(message, "Видео весит больше 50МБ, скинь что-нибудь полегче.")
                 return None
             bot.delete_message(msg.chat.id, msg.message_id)
             msg = bot.reply_to(message, "Видео скачано, отправляю...")
