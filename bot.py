@@ -9,7 +9,7 @@ import time
 import shutil
 
 def youtube_download(link):
-    yt = YouTube(link)
+    yt = YouTube(link, use_oauth=True, allow_oauth_cache=True)
     video = yt.streams.get_highest_resolution()
     if (video.filesize > 52428800):
         return 145
