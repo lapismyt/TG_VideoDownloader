@@ -1,8 +1,6 @@
-import telebot
 from config import ADMINS, API_TOKEN, START_TEXT, API_ID, API_HASH
 from pytube import YouTube
 from tiktok_downloader import ttdownloader
-from telethon import 
 import random
 import os
 import json
