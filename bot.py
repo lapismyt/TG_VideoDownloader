@@ -1,7 +1,8 @@
 import telebot
-from config import ADMINS, API_TOKEN, START_TEXT
+from config import ADMINS, API_TOKEN, START_TEXT, API_ID, API_HASH
 from pytube import YouTube
 from tiktok_downloader import ttdownloader
+from telethon import 
 import random
 import os
 import json
@@ -12,7 +13,7 @@ def youtube_download(link):
     yt = YouTube(link)
     video = yt.streams.get_highest_resolution()
     if (video.filesize > 52428800):
-        return 145
+        return 145 # TODO
     file = video.download(output_path="./downloads/")
     return file
 
@@ -53,7 +54,9 @@ def sendmsg_cmd(message):
         if (message.reply_to_message):
             msg = message.reply_to_message
             for usr in users.keys():
-                bot.send_message(usr, msg.text, parse_mode="html")
+                try:
+                    bot.send_message(usr, msg.text, parse_mode="html")
+                except: pass
 
 @bot.message_handler(content_types=["text"])
 def text_handler(message):
@@ -68,7 +71,7 @@ def text_handler(message):
                 return None
             bot.delete_message(msg.chat.id, msg.message_id)
             msg = bot.reply_to(message, "Видео скачано, отправляю...")
-            bot.send_video(message.chat.id, open(filepath, "rb"), timeout=600)
+            bot.send_video(message.chat.id, open(filepath, "rb"), timeout=600, reply_to_message_id=message.message_id)
             bot.delete_message(msg.chat.id, msg.message_id)
             os.remove(filepath)
             success = True
@@ -77,7 +80,7 @@ def text_handler(message):
             filepath = tiktok_download(message.text)
             bot.delete_message(msg.chat.id, msg.message_id)
             msg = bot.reply_to(message, "Видео скачано, отправляю...")
-            bot.send_video(message.chat.id, open(filepath, "rb"), timeout=600)
+            bot.send_video(message.chat.id, open(filepath, "rb"), timeout=600, reply_to_message_id=message.message_id)
             bot.delete_message(msg.chat.id, msg.message_id)
             os.remove(filepath)
             success = True
