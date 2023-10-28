@@ -6,6 +6,8 @@ import os
 import json
 import time
 import shutil
+import telebot
+
 
 def youtube_download(link):
     yt = YouTube(link, use_oauth=True, allow_oauth_cache=True)
